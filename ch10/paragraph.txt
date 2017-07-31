@@ -1,0 +1,4 @@
+1 - The dog has just woken up.
+2 - He looks around for his masters.
+3 - There is no one to be found.
+4 - and now the search for food..
