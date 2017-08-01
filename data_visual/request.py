@@ -1,22 +1,23 @@
-#Requests a query at indeed.com to see how many job postings per search
+# Requests a query at indeed.com to see how many job postings per search
 
 import requests
 import time
+from datetime import date
 from bs4 import BeautifulSoup
 
-#a get request to indeed with 2 queries, 'q' for keyword  and 'l' for location
+# a get request to indeed with 2 queries, 'q' for keyword  and 'l' for location
 def get_job_count(language,location='usa'):
   location = location.replace(" " , "+").strip().lower()
   language = language.strip().lower()
 
-  #Request & retrieve content
+  # Request & retrieve content
   url = url = "https://www.indeed.com/jobs?q=" + language + "&l=" + location
   page = requests.get(url)
   html = page.content
   soup = BeautifulSoup(html, 'html.parser')
 
-  #Get job count
-  #The <div id='searchCount'> on the html contains out job count numbers
+  # Get job count
+  # The <div id='searchCount'> on the html contains out job count numbers
   search_count = soup.find(id='searchCount').get_text()
   job_count = search_count.split()
   job_count = job_count[5]
@@ -24,10 +25,12 @@ def get_job_count(language,location='usa'):
 
   return int(job_count)
 
-languages = ['java','ruby','php','python']
-
+# function that accepts a list of languages and outputs data
+# as a dictionary
 def get_job(languages, location='usa'):
   data = {}
+  today = date.today().isoformat()
+  data.update({'date':today})
 
   for language in languages:
     data.update({ 
@@ -36,12 +39,16 @@ def get_job(languages, location='usa'):
     time.sleep(1)
 
   return data;
+# %2B is '+' is url encoding, c%2B%2B -> c++
+languages = ['java', 'javascript', 'php', 'python', 'ruby', 'c%2B%2B']
 
-data =  get_job(languages)
+data =  get_job(languages, 'san francisco')
 print(data)
 
+framework = ['angular', 'react', 'rails', 'django', 'node', 'laravel', 'machine learning']
 
-
+data = get_job(framework, 'san francisco')
+print(data)
 
 
 
