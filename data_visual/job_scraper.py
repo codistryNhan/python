@@ -63,7 +63,7 @@ class JobScraper():
          output:('08-01-17', {'python': 43203, 'java': 62996})
   """
   def get_job_data(self, languages):
-    data = OrderedDict()
+    data = {}
     today = date.today().strftime("%m-%d-%y")
 
     dict = {}
@@ -83,12 +83,3 @@ class JobScraper():
     except FileNotFoundError:
       print("File not found, rip")
 
-languages = ['java', 'python',]
-
-indeed = JobScraper()
-
-data = indeed.get_job_data(languages)
-
-filename = 'job_data.json'
-
-indeed.write_to_file(filename, data)
